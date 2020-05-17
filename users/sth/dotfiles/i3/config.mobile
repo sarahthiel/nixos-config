@@ -1,0 +1,16 @@
+###############################################################################
+## CONFIG.MOBILE
+###############################################################################
+
+set $primaryDisplay eDP-1
+
+workspace $ws1 output $primaryDisplay
+workspace $ws2 output $primaryDisplay
+workspace $ws3 output $primaryDisplay
+workspace $ws4 output $primaryDisplay
+workspace $ws5 output $primaryDisplay
+workspace $ws6 output $primaryDisplay
+workspace $ws7 output $primaryDisplay
+workspace $ws8 output $primaryDisplay
+workspace $ws9 output $primaryDisplay
+workspace $ws10 output $primaryDisplay

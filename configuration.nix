@@ -12,6 +12,7 @@
       ./modules/luks.nix
       ./modules/defaults.nix
       ./modules/default-tools.nix
+      #./modules/home-manager.nix
       # ./modules/zfs.nix
       ./hosts/twentyone/twentyone.nix
     ];

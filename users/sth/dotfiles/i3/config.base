@@ -1,0 +1,381 @@
+###############################################################################
+# VARIABLES
+
+# set Super key
+set $win Mod4
+set $alt Mod1
+
+# workspaces
+
+# Terminal
+set $ws1 "1: "
+# Browser
+set $ws2 "2: "
+# IDE
+set $ws3 "3: "
+# VCS
+set $ws4 "4: "
+# Office
+set $ws5 "5: "
+# Games
+set $ws6 "6: "
+# Media
+set $ws7 "7: "
+# Virtual & Remote
+set $ws8 "8: "
+# Mail
+set $ws9 "9: "
+# Social/Messenger
+set $ws10 "10: "
+
+###############################################################################
+# KEYS
+# change focus
+bindsym $win+h focus left
+bindsym $win+j focus down
+bindsym $win+k focus up
+bindsym $win+l focus right
+bindsym $win+Left focus left
+bindsym $win+Down focus down
+bindsym $win+Up focus up
+bindsym $win+Right focus right
+
+# move focused window
+bindsym $win+Shift+h move left
+bindsym $win+Shift+j move down
+bindsym $win+Shift+k move up
+bindsym $win+Shift+l move right
+bindsym $win+Shift+Left move left
+bindsym $win+Shift+Down move down
+bindsym $win+Shift+Up move up
+bindsym $win+Shift+Right move right
+
+
+# move workspace between monitors
+bindsym $win+Control+h move workspace to output left
+bindsym $win+Control+j move workspace to output down
+bindsym $win+Control+k move workspace to output up
+bindsym $win+Control+l move workspace to output right
+bindsym $win+Control+Left move workspace to output left
+bindsym $win+Control+Down move workspace to output down
+bindsym $win+Control+Up move workspace to output up
+bindsym $win+Control+Right move workspace to output right
+
+
+# split in horizontal orientation
+bindsym $win+backslash split h
+
+# split in vertical orientation
+bindsym $win+equal split v
+
+# change container layout
+bindsym $win+x layout toggle all
+bindsym $win+Control+x floating toggle
+
+bindsym $win+f fullscreen toggle
+
+# kill focused window
+bindsym $win+q kill
+
+# shortcuts
+## i3wm
+bindsym $win+Shift+c reload
+bindsym $win+Shift+r restart
+
+## Basics
+bindsym $win+1 workspace $ws1
+bindsym $win+2 workspace $ws2
+bindsym $win+3 workspace $ws3
+bindsym $win+4 workspace $ws4
+bindsym $win+5 workspace $ws5
+bindsym $win+6 workspace $ws6
+bindsym $win+7 workspace $ws7
+bindsym $win+8 workspace $ws8
+bindsym $win+9 workspace $ws9
+bindsym $win+0 workspace $ws10
+bindsym $win+Shift+1 move container to workspace $ws1
+bindsym $win+Shift+2 move container to workspace $ws2
+bindsym $win+Shift+3 move container to workspace $ws3
+bindsym $win+Shift+4 move container to workspace $ws4
+bindsym $win+Shift+5 move container to workspace $ws5
+bindsym $win+Shift+6 move container to workspace $ws6
+bindsym $win+Shift+7 move container to workspace $ws7
+bindsym $win+Shift+8 move container to workspace $ws8
+bindsym $win+Shift+9 move container to workspace $ws9
+bindsym $win+Shift+0 move container to workspace $ws10
+
+#######
+# Start i3-gaps Mode
+set $mode_gaps Gaps: (O) Outer, (I) Inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $win+Shift+g mode "$mode_gaps"
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $win+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $win+r mode "default"
+}
+bindsym $win+r mode "resize"
+
+set $mode_system (l)ock, (e)xit, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id ~/bin/i3util lock, mode "default"
+    bindsym e exec --no-startup-id ~/bin/i3util power -e, mode "default"
+    bindsym r exec --no-startup-id ~/bin/i3util power -r, mode "default"
+    bindsym Shift+s exec --no-startup-id ~/bin/i3util power -s, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $win+Shift+q mode "$mode_system"
+#bindsym $win+Shift+Escape mode "$mode_system"
+#bindsym $win+Ctrl+Escape mode "$mode_system"
+#bindsym $win+$alt+l exec ~/bin/i3util lock
+
+## app shortcuts
+bindsym $win+Return exec alacritty
+bindsym $win+space exec --no-startup-id rofi -show run
+bindsym $win+Tab exec --no-startup-id rofi -show window
+
+## F-Keys
+bindsym $win+F2 exec "~/bin/i3util launch 2"
+bindsym $win+F3 exec "~/bin/i3util launch 3"
+bindsym $win+F4 exec "~/bin/i3util launch 4"
+bindsym $win+F5 exec "~/bin/i3util launch 5"
+bindsym $win+F6 exec "~/bin/i3util launch 6"
+bindsym $win+F7 exec "~/bin/i3util launch 7"
+bindsym $win+F9 exec "~/bin/i3util launch 9"
+bindsym $win+F10 exec "~/bin/i3util launch 0"
+
+
+set $mode_sites (m)obile, (h)ome, (o)ffice
+mode "$mode_sites" {
+    bindsym m exec --no-startup-id ~/bin/i3util site -m, mode "default"
+    bindsym h exec --no-startup-id ~/bin/i3util site -h, mode "default"
+    bindsym Shift+h exec --no-startup-id ~/bin/i3util site -g, mode "default"
+    bindsym o exec --no-startup-id ~/bin/i3util site -o, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $win+Ctrl+F7 mode "$mode_sites"
+
+set $mode_launcher (w)ork
+mode "$mode_launcher" {
+    bindsym w exec --no-startup-id ~/bin/i3util launch office, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $win+F12 mode "$mode_launcher"
+
+
+
+###############################################################################
+# MOUSE
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $alt
+focus_follows_mouse no
+
+###############################################################################
+# Windows
+popup_during_fullscreen smart
+
+for_window [workspace=$ws2] layout tabbed
+for_window [workspace=$ws3] layout tabbed
+for_window [workspace=$ws4] layout tabbed
+for_window [workspace=$ws8] layout tabbed
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [class="zoom"] floating enable
+for_window [class="joplin"] floating enable
+for_window [class="jetbrains-toolbox"] floating enable
+for_window [class="Steam" title="Friends List"] floating enable
+for_window [class="krunner"] floating enable, border none
+for_window [class="Kmix"] floating enable, border none
+for_window [class="Klipper"] floating enable, border none
+for_window [class="Plasmoidviewer"] floating enable, border none
+
+assign [class="(?i)firefox-dev"] → $ws3
+assign [class="(?i)firefox-vcs"] → $ws4
+assign [class="(?i)firefox-media"] → $ws7
+assign [class="(?i)firefox-teams"] → $ws10
+
+# ws 2 Browser
+assign [class="(?i)firefox"] → $ws2
+assign [title="cli-web"] → $ws2
+
+# ws 3 IDE
+assign [class="jetbrains-phpstorm|java-lang-Thread|Subl3|Postman"] → $ws3
+assign [title="cli-dev"] → $ws3
+
+# ws4 VCS
+assign [class="GitKraken"] → $ws4
+assign [title="cli-vcs"] → $ws4
+
+# ws 5 Office
+assign [class="libreoffice"] → $ws5
+
+# ws 6 Games
+assign [class="Steam"] → $ws6
+
+# ws 7 Media
+assign [class="(?i)spotify"] → $ws7
+
+# ws 8 Vitual & Remote
+assign [class="VirtualBox Machine|VirtualBox Manager"] → $ws8
+assign [title="cli-virt"] → $ws8
+# ws 9 Mail
+assign [class="Thunderbird|Mail"] → $ws9
+
+# ws 10 social
+assign [class="zoom|Signal|Skype"] → $ws10
+for_window [class="zoom"] move to $ws10
+
+###############################################################################
+# AUTOSTART
+exec --no-startup-id "dunst &"
+#exec --no-startup-id "nitrogen --restore"
+#exec --no-startup-id "autotiling"
+
+###############################################################################
+# AUTOSTART
+
+exec --no-startup-id "xfsettingsd --sm-client-disable &"
+exec_always --no-startup-id "export $(gnome-keyring-daemon -s)"
+exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
+exec --no-startup-id "thunar --daemon &"
+exec --no-startup-id "nm-applet &"
+exec --no-startup-id "volumeicon &"
+
+
+#exec --no-startup-id xset dpms 600
+#exec --no-startup-id xss-lock -- ~/.bin/i3util lock &
+#exec --no-startup-id "compton --config /home/sth/.config/compton/compton.conf"
+#exec --no-startup-id "autotiling"
+#exec --no-startup-id "nextcloud --background &"
+#exec --no-startup-id "joplin-desktop &"
+#exec_always "urxvt -e tmux new -s 'i3'"
+#exec_always --nostartup-id betterlockscreen -u /home/sth/.dotfiles/config/i3/lockscreen &
+
+###############################################################################
+# THEME
+font pango:Hack Nerd Font 10
+
+smart_borders on
+gaps inner 0
+gaps outer 0
+smart_gaps on
+
+set $base00 #2E3440
+set $base01 #3B4252
+set $base02 #434C5E
+set $base03 #4C566A
+set $base04 #D8DEE9
+set $base05 #E5E9F0
+set $base06 #ECEFF4
+set $base07 #8FBCBB
+set $base08 #88C0D0
+set $base09 #81A1C1
+set $base0A #5E81AC
+set $base0B #BF616A
+set $base0C #D08770
+set $base0D #EBCB8B
+set $base0E #A3BE8C
+set $base0F #B48EAD
+set $baseFF #FF00FF
+
+# Basic color configuration using the Base16 variables for windows and borders.
+# Property Name         Border  BG      Text    Indicator Child Border
+client.focused          $base02 $base01 $base04 $base03 $base02
+client.unfocused        $base01 $base00 $base02 $base02 $base01
+client.focused_inactive $base01 $base00 $base02 $base02 $base01
+client.urgent           $base0D $base0D $base00 $base0C $base0D
+client.placeholder      $base00 $base00 $base05 $base02 $base00
+client.background       $base01
+
+default_border pixel 2
+default_floating_border pixel 2
+
+# Basic bar configuration using the Base16 variables.
+#bar {
+#    status_command i3status
+#    position top
+    #tray_output none
+    #separator_symbol " | "
+
+    #colors {
+    #    background $base01
+    #    separator  $base08
+    #    statusline $base08
+
+        # State             Border  BG      Text
+    #    focused_workspace   $base03 $base0A $base01
+    #    active_workspace    $base03 $base03 $base08
+    #    inactive_workspace  $base03 $base03 $base04
+    #    urgent_workspace    $base03 $base0D $base01
+    #    binding_mode        $base03 $base0D $base01
+    #}
+#}
+
+###############################################################################
+## END OF CONFIG.BASE
+###############################################################################

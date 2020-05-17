@@ -5,14 +5,13 @@
     [
       ./persistence.nix
       ../../hardware/t490.nix
-      ../../modules/desktop.nix
+      ../../modules/i3.nix
+      # ../../modules/desktop.nix
       ../../modules/fonts.nix
       ../../modules/dev.nix
       ../../modules/office.nix
-      ../../modules/yubikey.nix
-      ../../modules/barrier.nix
       #../../modules/lxc.nix
-      ../../users/sth.nix
+      ../../users/sth/user.nix
     ];
 
   networking.hostName = "twentyone"; # Define your hostname.

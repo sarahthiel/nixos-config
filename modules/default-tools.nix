@@ -19,6 +19,7 @@
     httpie
     iftop
     iotop
+    killall
     lsof
     manpages
     mc
@@ -38,8 +39,4 @@
     zip
     zsh
   ];
-
-  programs.ssh = {
-    startAgent = true;
-  };
 }

@@ -1,0 +1,162 @@
+#!/usr/bin/env sh
+
+SCRIPTNAME="${0##*/}"       # name of program
+I3CONFIGDIR="$HOME/.config/i3"	# location of i3 config files
+
+close_windows() {
+  windows=$(wmctrl -l | cut -d' ' -f1)
+  for wid in $windows;do
+    wmctrl -i -c $wid # tell each application to exit
+  done
+
+  # wait until all applications are closed
+  while [[ $(wmctrl -l | wc -l) -gt 0 ]]; do
+    sleep 0.5
+  done
+}
+
+update_i3_config() {
+  case $1 in
+    home|h)
+      cat $I3CONFIGDIR/config.base $I3CONFIGDIR/config.home > $I3CONFIGDIR/config
+    ;;
+    game|g)
+      cat $I3CONFIGDIR/config.base $I3CONFIGDIR/config.game > $I3CONFIGDIR/config
+    ;;
+    office|o)
+      cat $I3CONFIGDIR/config.base $I3CONFIGDIR/config.office > $I3CONFIGDIR/config
+    ;;
+    mobile|m|*)
+      cat $I3CONFIGDIR/config.base $I3CONFIGDIR/config.mobile > $I3CONFIGDIR/config
+    ;;
+  esac
+}
+
+# output help text and exit
+cmd_help() {
+  cat << EOF
+Usage:
+    $SCRIPTNAME power [--exit,-e,--restart,-r,--shutdown,-s]
+        shutdown
+    $SCRIPTNAME site [--home,-h,--homegame,-hg,--office,-o,--mobile,-m]
+        update configuration for the specified site
+    $SCRIPTNAME lock
+        lock screen
+    $SCRIPTNAME launch
+        lock screen
+EOF
+  exit 0
+}
+
+cmd_power() {
+  close_windows
+
+	case $1 in
+	--exit|-e)
+        i3-msg exit
+	  ;;
+	--restart|-r)
+	    systemctl reboot
+	  ;;
+	--shutdown|-s|*)
+	    systemctl poweroff
+	  ;;
+	esac
+}
+
+cmd_site() {
+	case $1 in
+	--home|-h)
+      xrandr --output eDP-1 --off \
+	      --output DP-1-2 --primary --mode 2560x1440 \
+	      --output DP-1-3 --mode 2560x1440 --right-of DP-1-2
+	    pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
+	    pactl set-default-source alsa_input.pci-0000_00_1f.3.analog-stereo
+	    update_i3_config h
+	  ;;
+	--game|-g)
+      xrandr --output eDP-1 --off \
+	      --output DP-1-2 --off \
+	      --output DP-1-3 --primary --mode 2560x1440
+	    pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
+	    pactl set-default-source alsa_input.pci-0000_00_1f.3.analog-stereo
+	    update_i3_config g
+	  ;;
+	--office|-o)
+      xrandr --output eDP-1 --mode 1920x1080 \
+	      --output HDMI-2 --primary --mode 1920x1080 --right-of eDP-1
+	    pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
+	    pactl set-default-source alsa_input.pci-0000_00_1f.3.analog-stereo
+	    update_i3_config o
+	  ;;
+	--mobile|-m|*)
+      xrandr --output eDP-1 --primary --mode 1920x1080 \
+	      --output DP-1-2 --off  \
+	      --output DP-1-3 --off  \
+	      --output HDMI-2 --off
+	    update_i3_config m
+	  ;;
+	esac
+    sleep 2
+    i3-msg "restart"
+	#sleep 0.5
+	#nitrogen --restore
+}
+
+cmd_lock() {
+	betterlockscreen -l
+}
+
+cmd_launch() {
+	case $1 in
+	2)
+	    firefox &
+	  ;;
+	3)
+	    ~/.bin/phpstorm.sh &
+	    firefox -p dev --class='firefox-dev' &
+	    alacritty -t cli-dev &
+	  ;;
+	4)
+	    gitkraken &
+	    firefox -p vcs --class='firefox-vcs' &
+	    alacritty -t cli-vcs &
+	  ;;
+	5)
+	    libreoffice &
+	  ;;
+	7)
+	    firefox -p media --class='firefox-media' &
+	  ;;
+	8)
+	    alacritty -t cli-virt &
+	  ;;
+	9)
+	    thunderbird &
+	  ;;
+	0)
+	    zoom &
+		firefox -p teams --class='firefox-teams' &
+        skypeforlinux &
+        signal-desktop &
+	  ;;
+
+	office)
+	    cmd_launch 2
+	    cmd_launch 3
+	    cmd_launch 4
+	    cmd_launch 9
+	    cmd_launch 0
+	  ;;
+	esac
+}
+
+case "$1" in
+  power) shift; cmd_power "$@" ;;
+  site) shift; cmd_site "$@" ;;
+  #lock) shift; cmd_lock "$@" ;;
+  #launch) shift; cmd_launch "$@" ;;
+  help|--help|-h|*) shift; cmd_help "$@" ;;
+esac
+
+exit 0

@@ -7,31 +7,31 @@
   environment.etc."machine-id".source = "/nix/persistent/etc/machine-id";
   environment.etc."NetworkManager/system-connections".source = "/nix/persistent/etc/NetworkManager/system-connections";
 
-  fileSystems."/etc/nixos" = { 
+  fileSystems."/etc/nixos" = {
     device = "/nix/persistent/etc/nixos";
     fsType = "none";
     options = [ "bind" ];
   };
 
-  fileSystems."/home/sth" = { 
-    device = "/nix/persistent/home/sth";
-    fsType = "none";
-    options = [ "bind" ];
-  };
+  #fileSystems."/home/sth" = {
+  #  device = "/nix/persistent/home/sth";
+  #  fsType = "none";
+  #  options = [ "bind" ];
+  #};
 
-  fileSystems."/root" = { 
+  fileSystems."/root" = {
     device = "/nix/persistent/home/root";
     fsType = "none";
     options = [ "bind" ];
   };
 
-  fileSystems."/var/lib/boltd" = { 
+  fileSystems."/var/lib/boltd" = {
     device = "/nix/persistent/var/lib/boltd";
     fsType = "none";
     options = [ "bind" ];
   };
-  
-  fileSystems."/var/log" = { 
+
+  fileSystems."/var/log" = {
     device = "/nix/persistent/var/log";
     fsType = "none";
     options = [ "bind" ];

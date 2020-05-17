@@ -14,45 +14,36 @@
   };
 
   environment.systemPackages = with pkgs; [
-    qtstyleplugin-kvantum-qt4
-    kdeApplications.dolphin-plugins
-    kdeApplications.konsole
-    kdeApplications.kwalletmanager
-    kdeApplications.okular
-    kdeApplications.spectacle
-    kdeconnect
-
-    firefox
-    vivaldi
-    vivaldi-widevine
-    chromium
+    # vivaldi
+    # vivaldi-widevine
+    # chromium
     
-    thunderbird
+    # thunderbird
     libreoffice
 
-    xclip
-    pass
+    # xclip
+    # pass
 
-    spotify
-    signal-desktop
-    nextcloud-client
+    # spotify
+    # signal-desktop
+    # nextcloud-client
 
-    keybase
-    keybase-gui
+    # keybase
+    # keybase-gui
   ];
 
-  programs.chromium = {
-    enable = true;
-    defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
-    defaultSearchProviderSuggestURL = null;
-    extraOpts = {
-      DownloadDirectory = "/tmp";
-    };
-  };
+  #programs.chromium = {
+  #  enable = true;
+  #  defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
+  #  defaultSearchProviderSuggestURL = null;
+  #  extraOpts = {
+  #    DownloadDirectory = "/tmp";
+  #  };
+  #};
 
-  nixpkgs.config.firefox = {
-    enablePlasmaBrowserIntegration = true;
-  };
+  #nixpkgs.config.firefox = {
+  #  enablePlasmaBrowserIntegration = true;
+  #};
   
 
   # Enable CUPS to print documents.
